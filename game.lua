@@ -96,6 +96,7 @@ local function onCollision( event )
 				print("Game Over by Birds")
             end
         end 
+        system.vibrate()
         gameoverImg.isVisible = true
         balloon:removeEventListener( "tap", pushBalloon )
 	end
