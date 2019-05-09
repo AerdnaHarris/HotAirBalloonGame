@@ -48,7 +48,7 @@ local function saveScores()
 end
 
 local function gotoMenu()
-    composer.gotoScene( "menu", { time=800, effect="crossFade" } )
+    composer.gotoScene( "menu", { time=800, effect="slideLeft" } )
 end
 
 -- create()

@@ -67,7 +67,7 @@ function createBirds()
 
 local function endGame()
 	composer.setVariable( "finalScore", score )
-    composer.gotoScene( "highscores", { time=800, effect="crossFade" } )
+    composer.gotoScene( "highscores", { time=800, effect="slideLeft" } )
     timer.cancel(timerSrc)
     timerSrc = nil
 end
