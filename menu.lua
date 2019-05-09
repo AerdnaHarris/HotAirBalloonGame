@@ -38,6 +38,10 @@ function scene:create( event )
 	title.x = display.contentCenterX
 	title.y =  display.contentCenterY - 30
 
+	local title = display.newImageRect( sceneGroup, "Images/dev.png", 50, 50)
+	title.x = display.contentWidth - display.contentWidth + 30
+	title.y =   display.contentHeight - display.contentHeight - 10
+
 	-- local title = display.newImageRect( sceneGroup, "title.png", 500, 80 )
 	-- title.x = display.contentCenterX
 	-- title.y = 200
