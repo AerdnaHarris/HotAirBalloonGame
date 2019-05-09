@@ -26,6 +26,7 @@ local balloon
 local ground
 local scoreText
 local countDown
+local gameoverImg
 
 local backGroup
 local mainGroup
@@ -60,7 +61,8 @@ function createBirds()
     transition.moveTo( b, { x=-50, y=valueY, time=randomTime } )
 
     print("create birds" .. rnd)
-   
+
+    print("current score: " .. score)
   end
 
 local function endGame()
@@ -89,11 +91,12 @@ local function onCollision( event )
         (obj1.myName == "balloon" and obj2.myName == "block")) then
             if ( died == false ) then
 				died = true
-                transition.moveTo(balloon, {x=display.contentCenterX, y=display.contentCenterY, time=3000 } )
+                transition.moveTo(balloon, {x=display.contentCenterX, y=display.contentCenterY - 200, time=3000 } )
                 timer.performWithDelay( 2000, endGame )
 				print("Game Over by Birds")
             end
         end 
+        gameoverImg.isVisible = true
         balloon:removeEventListener( "tap", pushBalloon )
 	end
 end
@@ -142,6 +145,12 @@ function scene:create( event )
     countDown.y = display.contentCenterY - 100
     countDown:setFillColor( 0, 0, 0)
     countDown.text = 0
+
+
+    gameoverImg = display.newImageRect( backGroup, "Images/gameover.png", 300, 400 )
+    gameoverImg.x = display.contentCenterX
+    gameoverImg.y = display.contentHeight - 180
+    gameoverImg.isVisible = false
 
     -- balloon:addEventListener( "tap", pushBalloon )
     blocks = display.newGroup()
