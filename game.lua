@@ -39,6 +39,9 @@ local timerSrc --Blocks timer
 local createBirds = {}
 local blocks = {}
 local yPos = {90, 140, 180} --Possible positions for the blocks
+
+
+local flyingBird 
 -- events
  
 local function pushBalloon()
@@ -67,7 +70,48 @@ function createBirds()
     print("create birds" .. rnd)
 
     print("current score: " .. score)
-  end
+end
+
+function createMovingBirds()
+
+    local rnd = math.floor(math.random() * 4) + 1
+    local valueY = yPos[math.floor(math.random() * 3)+1]
+
+    local sheetOptions =
+    {
+        width = 180,
+        height = 166,
+        numFrames = 15
+    }
+    local sheet_flyingBird = graphics.newImageSheet( "Images/samplebird.png", sheetOptions )
+    local sequences_flyingBird = {
+        -- first sequence (consecutive frames)
+        {
+            name = "normalRun",
+            start = 1,
+            count = 14,
+            time = 1000,
+            loopCount = 0
+        },
+    }
+    flyingBird = display.newSprite( sheet_flyingBird, sequences_flyingBird )
+    flyingBird.x = display.contentWidth
+    flyingBird.y = valueY
+    flyingBird.myName = 'block'
+    -- Block physics
+    physics.addBody(flyingBird, 'static')
+    flyingBird.isSensor = true
+    -- blocks:insert(b)
+
+    local randomTime = math.random(2000, 5000)
+    transition.moveTo( flyingBird, { x=-100, y=valueY, time=randomTime } )
+
+    flyingBird:play()
+
+    print("create birds motion" .. rnd)
+
+end
+
 
 local function endGame()
 	composer.setVariable( "finalScore", score )
@@ -162,6 +206,7 @@ function scene:create( event )
 
     tapSound = audio.loadSound( "audio/tap.wav" )
     gameTrack = audio.loadStream( "audio/music.wav")
+
 end
 
 
@@ -194,10 +239,11 @@ function scene:show( event )
             physics.addBody( ground, "static" )
             physics.addBody( balloon, "dynamic", { radius=50, bounce=0.3 } )
         end )
+
         -- physics.addBody( ground, "static" )
         -- physics.addBody( balloon, "dynamic", { radius=50, bounce=0.3 } )
         Runtime:addEventListener( "collision", onCollision )
-        timerSrc = timer.performWithDelay(8500, createBirds, 0)
+        timerSrc = timer.performWithDelay(8500, createMovingBirds, 0)
         -- Start the music!
         audio.play( gameTrack, { channel=1, loops=-1 } )
         -- gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
