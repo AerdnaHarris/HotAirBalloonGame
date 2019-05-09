@@ -33,6 +33,7 @@ local mainGroup
 local uiGroup
 
 local tapSound
+local gameTrack
 
 local timerSrc --Blocks timer
 local createBirds = {}
@@ -41,6 +42,7 @@ local yPos = {90, 140, 180} --Possible positions for the blocks
 -- events
  
 local function pushBalloon()
+    audio.play( tapSound )
     balloon:applyLinearImpulse( 0, -0.75, balloon.x, balloon.y )
     -- Increase score
     score = score + 1
@@ -157,6 +159,9 @@ function scene:create( event )
 
     -- balloon:addEventListener( "tap", pushBalloon )
     blocks = display.newGroup()
+
+    tapSound = audio.loadSound( "audio/tap.wav" )
+    gameTrack = audio.loadStream( "audio/music.wav")
 end
 
 
@@ -193,6 +198,8 @@ function scene:show( event )
         -- physics.addBody( balloon, "dynamic", { radius=50, bounce=0.3 } )
         Runtime:addEventListener( "collision", onCollision )
         timerSrc = timer.performWithDelay(8500, createBirds, 0)
+        -- Start the music!
+        audio.play( gameTrack, { channel=1, loops=-1 } )
         -- gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
 	end
 end
@@ -210,7 +217,9 @@ function scene:hide( event )
 	elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
-		physics.pause()
+        physics.pause()
+        -- Stop the music!
+        audio.stop( 1 )
 		composer.removeScene( "game" )
 	end
 end
@@ -220,7 +229,10 @@ end
 function scene:destroy( event )
 
 	local sceneGroup = self.view
-	-- Code here runs prior to the removal of scene's view
+    -- Code here runs prior to the removal of scene's view
+     -- Dispose audio!
+     audio.dispose( tapSound )
+     audio.dispose( gameTrack )
 
 end
 
