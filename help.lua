@@ -37,7 +37,7 @@ local function scrollListener( event )
 end
 
 local function gotoMenu()
-    composer.gotoScene( "menu", { time=800, effect="slideLeft" } )
+    composer.gotoScene( "menu", { time=800, effect="slideRight" } )
 end
 
 -- create()
@@ -60,12 +60,12 @@ function scene:create( event )
     menuButton.y = display.contentHeight - 3
 	menuButton:addEventListener( "tap", gotoMenu )
 
-	local help1 = display.newText( "Just tap the hot air balloon as many as you can. Remember the more you tap the more the hot air balloon goes up and the thrilling part is you need to catch it as it goes down. ", display.contentCenterX, display.contentHeight - 300, 240, 300, native.systemFont, 20 )
-	help1:setFillColor(1,1, 1 )
-	local help2 = display.newText( "Don't let the hot air balloon touch the ground and the birds. ", display.contentCenterX, display.contentCenterY + 120, 240, 300, native.systemFont, 20 )
-	help1:setFillColor(1,1, 1 )
-	local help3 = display.newText( "Tap as many as you can to get the high score. ", display.contentCenterX, display.contentCenterY + 200, 240, 300, native.systemFont, 20 )
-	help1:setFillColor(1,1, 1 )
+	-- local help1 = display.newText( "Just tap the hot air balloon as many as you can. Remember the more you tap the more the hot air balloon goes up and the thrilling part is you need to catch it as it goes down. ", display.contentCenterX, display.contentHeight - 300, 240, 300, native.systemFont, 20 )
+	-- help1:setFillColor(1,1, 1 )
+	-- local help2 = display.newText( "Don't let the hot air balloon touch the ground and the birds. ", display.contentCenterX, display.contentCenterY + 120, 240, 300, native.systemFont, 20 )
+	-- help1:setFillColor(1,1, 1 )
+	-- local help3 = display.newText( "Tap as many as you can to get the high score. ", display.contentCenterX, display.contentCenterY + 200, 240, 300, native.systemFont, 20 )
+	-- help1:setFillColor(1,1, 1 )
 end
 
 
