@@ -32,6 +32,8 @@ local backGroup
 local mainGroup
 local uiGroup
 
+local tapSound
+
 local timerSrc --Blocks timer
 local createBirds = {}
 local blocks = {}
