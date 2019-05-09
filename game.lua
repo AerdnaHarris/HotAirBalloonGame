@@ -79,11 +79,11 @@ function createMovingBirds()
 
     local sheetOptions =
     {
-        width = 180,
-        height = 166,
+        width = 70,
+        height = 50,
         numFrames = 15
     }
-    local sheet_flyingBird = graphics.newImageSheet( "Images/samplebird.png", sheetOptions )
+    local sheet_flyingBird = graphics.newImageSheet( "Images/birdsprites.png", sheetOptions )
     local sequences_flyingBird = {
         -- first sequence (consecutive frames)
         {
