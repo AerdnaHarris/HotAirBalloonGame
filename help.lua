@@ -27,9 +27,14 @@ function scene:create( event )
     background.x = display.contentCenterX
     background.y = display.contentCenterY
     
-
-    local menuButton = display.newText( sceneGroup, "Menu", display.contentCenterX, display.contentHeight - 5 , native.systemFont, 44 )
-    menuButton:setFillColor( 0.75, 0.78, 1 )
+	local backgroundtrans = display.newImageRect( sceneGroup, "Images/bgtrans1.png", 300, 520  )
+    backgroundtrans.x = display.contentCenterX 
+	backgroundtrans.y = display.contentCenterY - 15
+	
+    
+	local menuButton = display.newImageRect( sceneGroup, "Images/menu.png", 190, 80  )
+    menuButton.x = display.contentCenterX
+    menuButton.y = display.contentHeight - 3
 	menuButton:addEventListener( "tap", gotoMenu )
 end
 

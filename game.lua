@@ -25,6 +25,7 @@ local died = false
 local balloon
 local ground
 local scoreText
+local countDown
 
 local backGroup
 local mainGroup
@@ -35,11 +36,12 @@ local createBirds = {}
 local blocks = {}
 local yPos = {90, 140, 180} --Possible positions for the blocks
 -- events
+ 
 local function pushBalloon()
     balloon:applyLinearImpulse( 0, -0.75, balloon.x, balloon.y )
     -- Increase score
-	score = score + 1
-	scoreText.text = score
+    score = score + 1
+    scoreText.text = score
 end
 
 function createBirds()
@@ -80,7 +82,7 @@ local function onCollision( event )
 			if ( died == false ) then
 				died = true
                 transition.moveTo(balloon, {x=display.contentCenterX, y=display.contentCenterY, time=3000 } )
-				timer.performWithDelay( 2000, endGame )
+                timer.performWithDelay( 2000, endGame )
 				print("Game Over")
             end
         elseif ((obj1.myName == "block" and obj2.myName == "balloon") or
@@ -88,12 +90,14 @@ local function onCollision( event )
             if ( died == false ) then
 				died = true
                 transition.moveTo(balloon, {x=display.contentCenterX, y=display.contentCenterY, time=3000 } )
-				timer.performWithDelay( 2000, endGame )
+                timer.performWithDelay( 2000, endGame )
 				print("Game Over by Birds")
             end
         end 
+        balloon:removeEventListener( "tap", pushBalloon )
 	end
 end
+
 
 -- create()
 function scene:create( event )
@@ -117,7 +121,7 @@ function scene:create( event )
     background.x = display.contentCenterX
     background.y = display.contentCenterY
 
-    balloon = display.newImageRect( mainGroup, "Images/balloon.png", 125, 150 )
+    balloon = display.newImageRect( mainGroup, "Images/balloon.png", 100, 120 )
     balloon.x = display.contentCenterX
     balloon.y = display.contentCenterY
     balloon.alpha = 0.8
@@ -131,11 +135,16 @@ function scene:create( event )
     scoreText = display.newText( uiGroup, score, 400, 80, native.systemFont, 36 )
     scoreText.x = display.contentCenterX
     scoreText.y = display.contentHeight - display.contentHeight + 10
+    scoreText.isVisible = false
 
-    balloon:addEventListener( "tap", pushBalloon )
+    countDown = display.newText( uiGroup, score, 400, 80, native.systemFont, 60 )
+    countDown.x = display.contentCenterX
+    countDown.y = display.contentCenterY - 100
+    countDown:setFillColor( 0, 0, 0)
+    countDown.text = 0
 
+    -- balloon:addEventListener( "tap", pushBalloon )
     blocks = display.newGroup()
-
 end
 
 
@@ -150,11 +159,28 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
+        
         physics.start()
-        physics.addBody( ground, "static" )
-        physics.addBody( balloon, "dynamic", { radius=50, bounce=0.3 } )
+        timer.performWithDelay(1000, function()
+            countDown.text = 1
+        end )
+        timer.performWithDelay(2000, function()
+            countDown.text = 2
+        end )
+        timer.performWithDelay(3000, function()
+            countDown.text = 3
+        end )
+        timer.performWithDelay( 3000, function()
+            scoreText.isVisible = true
+            countDown.isVisible = false
+            balloon:addEventListener( "tap", pushBalloon )
+            physics.addBody( ground, "static" )
+            physics.addBody( balloon, "dynamic", { radius=50, bounce=0.3 } )
+        end )
+        -- physics.addBody( ground, "static" )
+        -- physics.addBody( balloon, "dynamic", { radius=50, bounce=0.3 } )
         Runtime:addEventListener( "collision", onCollision )
-        timerSrc = timer.performWithDelay(5000, createBirds, 0)
+        timerSrc = timer.performWithDelay(8500, createBirds, 0)
         -- gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
 	end
 end
@@ -170,7 +196,7 @@ function scene:hide( event )
 		-- Code here runs when the scene is on screen (but is about to go off screen)
 
 	elseif ( phase == "did" ) then
-		-- Code here runs immediately after the scene goes entirely off screen
+        -- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
 		physics.pause()
 		composer.removeScene( "game" )
