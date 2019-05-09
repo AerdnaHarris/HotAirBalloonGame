@@ -20,6 +20,10 @@ local function gotoHelp()
 	composer.gotoScene( "help", { time=800, effect="slideLeft" } )
 end
 
+local function gotoDev()
+	system.openURL( "https://github.com/AerdnaHarris" )
+end
+
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
@@ -38,9 +42,9 @@ function scene:create( event )
 	title.x = display.contentCenterX
 	title.y =  display.contentCenterY - 30
 
-	local title = display.newImageRect( sceneGroup, "Images/dev.png", 50, 50)
-	title.x = display.contentWidth - display.contentWidth + 30
-	title.y =   display.contentHeight - display.contentHeight - 10
+	local dev = display.newImageRect( sceneGroup, "Images/dev.png", 30, 30)
+	dev.x = display.contentWidth - display.contentWidth + 20
+	dev.y = display.contentHeight - display.contentHeight - 25
 
 	-- local title = display.newImageRect( sceneGroup, "title.png", 500, 80 )
 	-- title.x = display.contentCenterX
@@ -64,6 +68,8 @@ function scene:create( event )
 	playButton:addEventListener( "tap", gotoGame )
 	highScoresButton:addEventListener( "tap", gotoHighScores )
 	helpButton:addEventListener( "tap", gotoHelp )
+
+	dev:addEventListener( "tap", gotoDev )
 end
 
 
