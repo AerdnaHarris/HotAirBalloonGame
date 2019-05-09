@@ -34,6 +34,10 @@ function scene:create( event )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
+	local title = display.newImageRect( sceneGroup, "Images/balloontitle.png", 280, 100)
+	title.x = display.contentCenterX
+	title.y =  display.contentCenterY - 30
+
 	-- local title = display.newImageRect( sceneGroup, "title.png", 500, 80 )
 	-- title.x = display.contentCenterX
 	-- title.y = 200
